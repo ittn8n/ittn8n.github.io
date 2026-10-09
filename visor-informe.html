@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informe · Integraltek</title>
+<style>html,body{margin:0;height:100%}body{display:grid;place-items:center;font:13px Inter,system-ui,sans-serif;color:#8A90A2;background:transparent}</style>
+</head>
+<body>
+<p>Abriendo el informe…</p>
+<script>
+/* Visor de los informes de clientes.
+
+   El informe es un HTML de 9 MB con Plotly y sus propios scripts en línea. La CSP
+   del panel no los deja correr (y está bien que no), así que se dibuja acá: esta
+   página tiene su propia CSP en el .htaccess, y el panel la abre en un <iframe
+   sandbox> sin allow-same-origin. Corre en un origen opaco: no ve la sesión, ni
+   el localStorage, ni el DOM del panel. Lo único que cruza es el HTML, que manda
+   el panel después de bajarlo con la sesión del usuario. */
+addEventListener("message", function (e) {
+  if (e.source !== parent || !e.data || e.data.tipo !== "itk-informe" || typeof e.data.html !== "string") return;
+  // document.open borra este listener: el visor dibuja un solo informe. Para
+  // otro, el panel crea otro iframe.
+  document.open();
+  document.write(e.data.html);
+  document.close();
+});
+parent.postMessage({ tipo: "itk-visor-listo" }, "*");
+</script>
+</body>
+</html>
