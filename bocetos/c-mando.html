@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>C · Mando de soporte</title><link rel="stylesheet" href="base.css">
+<style>
+/* Dirección C: lateral con nombres y secciones (Operación / Negocio / Configuración),
+   sin barra superior. Soporte abre con una cinta fija de costos del mes (Meta, OpenAI,
+   n8n) y debajo el trabajo del día. El foco inicial que pidió Agustín: soporte + costos. */
+.app{--lateral:208px}
+.cinta{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cinta .ficha{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+.cinta strong{font-size:22px;font-weight:600;letter-spacing:-.01em}
+.cinta .delta{font-size:12px;font-weight:600;color:var(--verde)}.cinta .delta.mal{color:var(--rojo)}
+.cinta small{grid-column:1/-1;color:var(--muted)}
+.dos{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;flex:1;min-height:0}
+.ficha h2{margin:0 0 10px;font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.ficha h2 a{font-size:12px;color:var(--primary);font-weight:500;text-decoration:none}
+.estado{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--verde);margin-right:8px;vertical-align:-1px}
+.estado.rojo{background:var(--rojo)}.estado.ambar{background:var(--ambar)}
+.titulo-pagina{display:flex;justify-content:space-between;align-items:center}
+.titulo-pagina h1{margin:0;font-size:22px;font-weight:600}
+</style></head><body>
+<div class="app">
+  <aside class="lateral">
+    <div class="logo" style="margin-left:4px"><svg viewBox="0 0 1000 678"><polygon points="444,0 0,257 0,422 443,678 444,532 111,339 444,147" fill="#EC6638"/><polygon points="556,0 556,147 889,339 556,533 557,678 999,424 1000,256" fill="#EC6638"/></svg></div>
+    <div class="seccion">Operación</div>
+    <a class="mod"><i></i>Escritorio</a>
+    <a class="mod on"><i class="c"></i>Soporte</a>
+    <div class="seccion">Negocio</div>
+    <a class="mod"><i class="c"></i>Finanzas</a>
+    <a class="mod"><i></i>Informes</a>
+    <div class="seccion">Configuración</div>
+    <a class="mod"><i></i>Accesos</a>
+    <a class="mod" style="margin-top:auto"><i class="c"></i>Raphael</a>
+  </aside>
+  <main class="cuerpo">
+    <div class="contenido">
+      <div class="titulo-pagina"><h1>Soporte</h1><div class="acciones"><span class="btn" title="Actualizar"><i></i></span><span class="btn" title="Mejorar el panel"><i></i></span></div></div>
+
+      <section class="cinta">
+        <div class="ficha"><span class="muted">Meta · WhatsApp</span><span class="delta mal">+31 %</span><strong>US$ 412</strong><span></span><small>DreamTraining explica US$ 96 de la suba</small></div>
+        <div class="ficha"><span class="muted">OpenAI · tokens</span><span class="delta">−4 %</span><strong>US$ 138</strong><span></span><small>IFRESA 61 % · PlanCar 27 %</small></div>
+        <div class="ficha"><span class="muted">n8n · ejecuciones</span><span class="delta mal">125 %</span><strong>18.113</strong><span></span><small>de 50.000 · se agota el 26</small></div>
+        <div class="ficha"><span class="muted">Rentabilidad · mes</span><span class="delta">4 de 5</span><strong>US$ 1.090</strong><span></span><small>DreamTraining en rojo: cobra 200, cuesta 214</small></div>
+      </section>
+
+      <div class="dos">
+        <section class="ficha">
+          <h2>Pide atención <a>Ver todo</a></h2>
+          <div class="alerta rojo" style="margin-bottom:8px"><i></i><div><strong>DreamTraining · bot en bucle</strong><small>4.812 mensajes hoy, 12× lo normal</small></div><div class="acciones"><span class="btn p" title="Pausar flujo"><i></i></span></div></div>
+          <div class="alerta rojo" style="margin-bottom:8px"><i></i><div><strong>ITK-0021 · Reconciliación detenida</strong><small>IFRESA · frena a alguien · sin tomar hace 2 días</small></div><div class="acciones"><span class="btn" title="Tomar"><i></i></span></div></div>
+          <div class="alerta rojo" style="margin-bottom:8px"><i></i><div><strong>Optica Lopez · 18 fallas en 24 h</strong><small>Send template · Referenced node doesn't exist</small></div><div class="acciones"><span class="btn" title="Ver flujo"><i></i></span></div></div>
+          <div class="alerta ambar"><i></i><div><strong>PlanCar · Citroën USH espera respuesta humana</strong><small>hace 41 min · «¿Puedo pasar mañana a la mañana?»</small></div><div class="acciones"><span class="btn" title="Abrir conversación"><i></i></span></div></div>
+        </section>
+        <section class="ficha">
+          <h2>Clientes <a>Costos · Conversaciones · Tickets · Usuarios</a></h2>
+          <table>
+            <tr><th>Cliente</th><th>Agentes</th><th class="n">Msj hoy</th><th class="n">Costo mes</th><th class="n">Tickets</th></tr>
+            <tr><td><span class="estado"></span>IFRESA</td><td class="muted">WSP v7 · Email · OCA</td><td class="n">827</td><td class="n">US$ 236</td><td class="n">1</td></tr>
+            <tr><td><span class="estado"></span>PlanCar</td><td class="muted">INTEGRO · 8 líneas</td><td class="n">331</td><td class="n">US$ 188</td><td class="n">2</td></tr>
+            <tr><td><span class="estado rojo"></span>DreamTraining</td><td class="muted">Bot IA</td><td class="n" style="color:var(--rojo);font-weight:600">4.812</td><td class="n" style="color:var(--rojo);font-weight:600">US$ 214</td><td class="n">0</td></tr>
+            <tr><td><span class="estado rojo"></span>Optica Lopez</td><td class="muted">Bot v7</td><td class="n">20</td><td class="n">US$ 9</td><td class="n">0</td></tr>
+            <tr><td><span class="estado ambar"></span>HMS</td><td class="muted">WSP v1</td><td class="n">—</td><td class="n">—</td><td class="n">0</td></tr>
+          </table>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="nota"><b>C · Mando de soporte.</b> Lateral con nombres y secciones, sin barra superior. Soporte abre con la cinta de costos (Meta, OpenAI, n8n, rentabilidad) y debajo lo que pide atención y la tabla por cliente. Conversaciones, tickets y usuarios cuelgan de cada cliente.</div>
+</body></html>

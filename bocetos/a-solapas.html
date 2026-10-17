@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A · Soporte en solapas</title><link rel="stylesheet" href="base.css">
+<style>
+/* Dirección A: un módulo Soporte con solapas. La barra superior desaparece: el título
+   y las acciones viven en la misma fila que las solapas. Se ganan ~80 px de alto. */
+.encabezado{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}
+.encabezado h1{font-size:20px;font-weight:600;margin:0 0 10px}
+.encabezado .solapas{border:0}
+.grid{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(300px,.8fr);gap:14px;flex:1;min-height:0}
+.lista{display:flex;flex-direction:column;gap:8px}
+.fila{display:grid;grid-template-columns:70px 1fr auto auto;gap:12px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.fila code{font:12px "IBM Plex Mono",monospace;color:var(--muted)}
+.fila.frena{border-color:color-mix(in oklab,var(--rojo) 40%,var(--line))}
+</style></head><body>
+<div class="app">
+  <aside class="lateral">
+    <div class="logo"><svg viewBox="0 0 1000 678"><polygon points="444,0 0,257 0,422 443,678 444,532 111,339 444,147" fill="#EC6638"/><polygon points="556,0 556,147 889,339 556,533 557,678 999,424 1000,256" fill="#EC6638"/></svg></div>
+    <a class="mod" title="Escritorio"><i></i></a>
+    <a class="mod on" title="Soporte"><i class="c"></i></a>
+    <a class="mod" title="Finanzas"><i class="c"></i></a>
+    <a class="mod" title="Informes"><i></i></a>
+    <a class="mod" title="Accesos" style="margin-top:auto"><i></i></a>
+  </aside>
+  <main class="cuerpo">
+    <div class="contenido">
+      <div class="encabezado">
+        <div>
+          <h1>Soporte</h1>
+          <nav class="solapas"><a class="on">Tickets <b>3</b></a><a>Conversaciones <b>1.415</b></a><a>Costos</a><a>Usuarios <b>5</b></a></nav>
+        </div>
+        <div class="acciones" style="padding-bottom:8px"><span class="btn" title="Tema"><i></i></span><span class="btn" title="Actualizar"><i></i></span><span class="btn" title="Mejorar el panel"><i></i></span><span class="btn" title="Usuario"><i class="c"></i></span></div>
+      </div>
+
+      <section class="kpis">
+        <div class="ficha kpi rojo"><strong>1</strong><span>Sin tomar</span></div>
+        <div class="ficha kpi ambar"><strong>1</strong><span>En curso</span></div>
+        <div class="ficha kpi verde"><strong>1</strong><span>Espera el OK</span></div>
+        <div class="ficha kpi"><strong>27</strong><span>Cerrados</span></div>
+        <div class="ficha kpi rojo"><strong>18</strong><span>Fallas n8n · 24 h</span></div>
+        <div class="ficha kpi ambar"><strong>125 %</strong><span>Cuota n8n proyectada</span></div>
+      </section>
+
+      <div class="grid">
+        <section class="lista">
+          <div class="fila frena"><code>ITK-0021</code><div><strong>Reconciliación detenida</strong><div class="muted">IFRESA · frena a alguien · hace 2 días</div></div><span class="pill rojo">Sin tomar</span><span class="btn" title="Tomar"><i></i></span></div>
+          <div class="fila"><code>ITK-0044</code><div><strong>Figurar como vendedor supervisor</strong><div class="muted">PlanCar · Lucas Silva · hace 8 días</div></div><span class="pill ambar">En curso</span><span class="btn" title="Abrir"><i></i></span></div>
+          <div class="fila"><code>ITK-0043</code><div><strong>Falta agregar Ferrari Rapid en productos</strong><div class="muted">PlanCar · hace 24 días</div></div><span class="pill verde">Espera el OK</span><span class="btn" title="Abrir"><i></i></span></div>
+          <div class="ficha" style="margin-top:6px"><h3>Cerrados esta semana</h3><table><tr><td><code>ITK-0042</code></td><td>Corrección de modelos</td><td class="muted">PlanCar</td><td class="n muted">hace 11 días</td></tr><tr><td><code>ITK-0041</code></td><td>Columna CODIFICACIÓN</td><td class="muted">IFRESA</td><td class="n muted">hace 10 días</td></tr></table></div>
+        </section>
+        <aside class="lista">
+          <div class="alerta rojo"><i></i><div><strong>DreamTraining · 12× los mensajes de un día normal</strong><small>Bot en bucle · cuesta Meta y ejecuciones</small></div><div class="num">4.812</div></div>
+          <div class="alerta rojo"><i></i><div><strong>Optica Lopez · 18 ejecuciones fallaron</strong><small>Send template · último error hace 12 min</small></div><div class="num">18</div></div>
+          <div class="alerta ambar"><i></i><div><strong>n8n · se queda sin ejecuciones el 26</strong><small>62.389 proyectadas sobre 50.000</small></div><div class="num">125 %</div></div>
+          <div class="ficha"><h3>Uso del mes · por cliente</h3>
+            <table><tr><td>IFRESA</td><td style="width:40%"><div class="barra-uso"><i style="width:100%"></i></div></td><td class="n">9.151 ejec.</td></tr>
+            <tr><td>PlanCar</td><td><div class="barra-uso"><i style="width:56%"></i></div></td><td class="n">5.554</td></tr>
+            <tr><td>DreamTraining</td><td><div class="barra-uso rojo"><i style="width:40%"></i></div></td><td class="n">2.399</td></tr>
+            <tr><td>Optica Lopez</td><td><div class="barra-uso"><i style="width:4%"></i></div></td><td class="n">334</td></tr></table></div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="nota"><b>A · Soporte en solapas.</b> Un módulo, cuatro solapas. Sin barra superior: título, solapas y botones en una fila. Las alertas viven dentro de Soporte, con color y número, no texto.</div>
+</body></html>

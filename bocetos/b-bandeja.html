@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>B · Bandeja de soporte</title><link rel="stylesheet" href="base.css">
+<style>
+/* Dirección B: Soporte es una bandeja única. A la izquierda, todo lo que pide atención
+   (tickets, conversaciones sin responder, anomalías de costo) ordenado por urgencia;
+   a la derecha, el detalle de lo elegido. Costos y usuarios son vistas secundarias. */
+.bandeja{display:grid;grid-template-columns:minmax(320px,420px) minmax(0,1fr);gap:14px;flex:1;min-height:0}
+.cola{display:flex;flex-direction:column;gap:6px;overflow:auto}
+.filtros{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px}
+.filtros span{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:12px;background:var(--card);color:var(--muted)}
+.filtros span.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.item{display:grid;grid-template-columns:4px 1fr auto;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--card);align-items:center}
+.item>i{height:100%;min-height:36px;border-radius:4px;background:var(--muted)}
+.item.rojo>i{background:var(--rojo)}.item.ambar>i{background:var(--ambar)}.item.verde>i{background:var(--verde)}
+.item.on{outline:2px solid var(--primary);outline-offset:-1px}
+.item .tipo{font:600 10px Inter;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.item strong{display:block;font-weight:600}
+.item small{color:var(--muted)}
+.detalle{display:flex;flex-direction:column;gap:12px}
+.detalle header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.detalle h2{margin:0;font-size:18px;font-weight:600}
+.serie{display:flex;align-items:flex-end;gap:3px;height:80px}
+.serie i{flex:1;background:color-mix(in oklab,var(--primary) 70%,#fff);border-radius:3px 3px 0 0}
+.serie i.hoy{background:var(--rojo)}
+</style></head><body>
+<div class="app">
+  <aside class="lateral">
+    <div class="logo"><svg viewBox="0 0 1000 678"><polygon points="444,0 0,257 0,422 443,678 444,532 111,339 444,147" fill="#EC6638"/><polygon points="556,0 556,147 889,339 556,533 557,678 999,424 1000,256" fill="#EC6638"/></svg></div>
+    <a class="mod" title="Escritorio"><i></i></a>
+    <a class="mod on" title="Soporte"><i class="c"></i></a>
+    <a class="mod" title="Finanzas"><i class="c"></i></a>
+    <a class="mod" title="Informes"><i></i></a>
+    <a class="mod" title="Accesos" style="margin-top:auto"><i></i></a>
+  </aside>
+  <main class="cuerpo">
+    <header class="barra"><h1>Soporte</h1>
+      <nav class="solapas" style="border:0"><a class="on">Bandeja <b>6</b></a><a>Costos</a><a>Usuarios</a></nav>
+      <div class="acciones"><span class="btn" title="Actualizar"><i></i></span><span class="btn" title="Mejorar el panel"><i></i></span><span class="btn" title="Usuario"><i class="c"></i></span></div>
+    </header>
+    <div class="contenido">
+      <div class="bandeja">
+        <section class="cola">
+          <div class="filtros"><span class="on">Todo · 6</span><span>Tickets · 3</span><span>Conversaciones · 2</span><span>Costos · 1</span></div>
+          <div class="item rojo on"><i></i><div><span class="tipo">Costo · DreamTraining</span><strong>12× los mensajes de un día normal</strong><small>4.812 mensajes hoy · promedio 390</small></div><span class="muted">hace 20 min</span></div>
+          <div class="item rojo"><i></i><div><span class="tipo">Ticket · IFRESA</span><strong>Reconciliación detenida</strong><small>ITK-0021 · frena a alguien · sin tomar</small></div><span class="muted">2 días</span></div>
+          <div class="item rojo"><i></i><div><span class="tipo">Flujo · Optica Lopez</span><strong>18 ejecuciones fallaron en 24 h</strong><small>Send template · Referenced node doesn't exist</small></div><span class="muted">12 min</span></div>
+          <div class="item ambar"><i></i><div><span class="tipo">Conversación · PlanCar · Citroën USH</span><strong>Cliente espera respuesta humana</strong><small>«¿Puedo pasar mañana a la mañana?»</small></div><span class="muted">41 min</span></div>
+          <div class="item ambar"><i></i><div><span class="tipo">Ticket · PlanCar</span><strong>Figurar como vendedor supervisor</strong><small>ITK-0044 · en curso · Lucas Silva</small></div><span class="muted">8 días</span></div>
+          <div class="item verde"><i></i><div><span class="tipo">Ticket · PlanCar</span><strong>Falta agregar Ferrari Rapid</strong><small>ITK-0043 · espera el OK del cliente</small></div><span class="muted">24 días</span></div>
+        </section>
+        <section class="ficha detalle">
+          <header><div><span class="pill rojo">Anomalía de costo</span><h2>DreamTraining · 12× los mensajes de un día normal</h2><div class="muted">Detectado hoy 18:40 · bot «DreamTraining · Bot IA»</div></div>
+            <div class="acciones"><span class="btn p" title="Pausar el flujo en n8n"><i></i></span><span class="btn" title="Abrir conversaciones"><i></i></span><span class="btn" title="Crear ticket"><i></i></span></div></header>
+          <div class="kpis"><div class="kpi rojo"><strong>4.812</strong><span>mensajes hoy</span></div><div class="kpi"><strong>390</strong><span>promedio diario del mes</span></div><div class="kpi rojo"><strong>US$ 38</strong><span>costo Meta estimado hoy</span></div><div class="kpi ambar"><strong>1.218</strong><span>ejecuciones n8n hoy</span></div></div>
+          <div><h3 style="font:600 11px Inter;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:6px 0 8px">Mensajes por día · octubre</h3>
+            <div class="serie"><i style="height:30%"></i><i style="height:34%"></i><i style="height:28%"></i><i style="height:31%"></i><i style="height:36%"></i><i style="height:29%"></i><i style="height:33%"></i><i style="height:30%"></i><i class="hoy" style="height:100%"></i></div></div>
+          <p class="muted" style="margin:0">Regla: se avisa cuando los mensajes o las ejecuciones del día superan 3 veces el promedio del cliente en el mes. Es la que hubiera atrapado los 450.000 mensajes de DreamTraining el primer día.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+<div class="nota"><b>B · Bandeja de soporte.</b> Una sola cola con lo que pide atención, mezclando tickets, conversaciones y costos, ordenada por urgencia. El detalle a la derecha con acciones. Costos y usuarios quedan como vistas secundarias.</div>
+</body></html>
