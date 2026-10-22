@@ -5,7 +5,7 @@
    agenda vieja es peor que una agenda que dice "sin conexión".
    Para el index.html se va a la red primero y se cae a la caché: así un
    cambio publicado se ve en la próxima apertura, sin esperar a que venza. */
-const CACHE = 'asesor-v01';
+const CACHE = 'asesor-v02';
 const CASCARA = ['./', './index.html', './manifest.webmanifest', './icono-192.png', './icono-512.png'];
 
 self.addEventListener('install', e => {

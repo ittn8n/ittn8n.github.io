@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Integro · Asesor</title>
-<meta name="panel-version" content="v01">
+<meta name="panel-version" content="v02">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0A1020">
 <meta name="description" content="Agenda personal: tareas, proyectos, Gantt y alertas de Meta, en el celular.">
@@ -232,6 +232,19 @@ body{background:var(--bg);color:var(--txt);font-family:var(--f-body);font-size:1
 .app .pie-hoja .btn.primario{flex:1;justify-content:center}
 
 /* ----- aviso flotante ----- */
+/* ----- botón de IA y la charla con el asesor ----- */
+.app .btn-ia{position:fixed;right:16px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:40;width:56px;height:56px;border-radius:50%;border:0;background:var(--orange);color:#fff;box-shadow:0 8px 24px -8px rgba(0,0,0,.6);display:grid;place-items:center;cursor:pointer;padding:0}
+.app .btn-ia .ic{width:26px;height:26px}
+.app .btn-ia:active{transform:scale(.96)}
+.app .charla{display:flex;flex-direction:column;gap:8px;min-height:40dvh;max-height:60dvh;overflow:auto;padding:4px 0 8px}
+.app .burbuja{max-width:88%;padding:9px 12px;border-radius:14px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.4}
+.app .burbuja.yo{align-self:flex-end;background:var(--green);color:#fff;border-bottom-right-radius:4px}
+.app .burbuja.ia{align-self:flex-start;background:var(--panel2);border:1px solid var(--line);border-bottom-left-radius:4px}
+.app .burbuja.ia.pensando{color:var(--muted);animation:late 1s ease-in-out infinite}
+.app .burbuja.error{background:var(--neg-s);color:var(--neg);border-color:transparent}
+.app .charla-vacia{color:var(--muted);font-size:13px;text-align:center;padding:24px 10px}
+.app .charla-vacia b{display:block;color:var(--txt);font-family:var(--f-display);font-size:16px;margin-bottom:6px}
+.app .charla-vacia code{font-family:inherit;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;display:inline-block;margin:2px}
 .app .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(76px + env(safe-area-inset-bottom));z-index:60;background:var(--navy);color:#fff;padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .2s;max-width:92vw}
 .app .toast.ver{opacity:1}
 .app .toast.error{background:var(--neg)}
@@ -855,7 +868,7 @@ M4262 463 l3 -248 135 1 135 1 0 24 c0 24 -1 24 -112 27 l-113 3 0 219 0 220
 <div id="app" class="app">
   <header class="barra">
     <div class="logo"><span class="br">&gt;_</span><span class="integral">Asesor</span></div>
-    <span class="ver">v01</span>
+    <span class="ver">v02</span>
     <button class="iconbtn" id="btn-tema" title="Cambiar tema claro/oscuro"></button>
     <button class="iconbtn" id="btn-refrescar" title="Releer de Supabase"></button>
     <button class="iconbtn" id="btn-salir" title="Salir"></button>
@@ -1057,6 +1070,20 @@ M4262 463 l3 -248 135 1 135 1 0 24 c0 24 -1 24 -112 27 l-113 3 0 219 0 220
     </form>
   </div>
 
+  <!-- el botón de IA: tocás, hablás o escribís, y el asesor agenda o contesta -->
+  <button type="button" class="btn-ia" id="btn-ia" title="Hablar con el asesor"></button>
+  <div class="modal" id="m-ia">
+    <form class="hoja" id="f-ia" autocomplete="off">
+      <h3><span>Asesor</span><button type="button" class="iconbtn" id="ia-limpiar" title="Empezar de nuevo"></button><button type="button" class="iconbtn" id="ia-cerrar" title="Cerrar" style="margin-left:6px"></button></h3>
+      <div class="charla" id="ia-charla"></div>
+      <div class="captura" style="position:static;padding:0">
+        <input id="ia-texto" type="text" placeholder="Decime…" enterkeyhint="send" aria-label="Mensaje para el asesor">
+        <button type="button" class="iconbtn" id="ia-dictar" title="Dictar"></button>
+        <button type="submit" class="iconbtn" id="ia-enviar" title="Enviar"></button>
+      </div>
+    </form>
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
 <script>
@@ -1223,7 +1250,7 @@ const SB_URL = "https://vtqvbuhmihslzygyvrgf.supabase.co";
    (asesor.es_usuario). La clave de servicio no entra acá jamás. */
 const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cXZidWhtaWhzbHp5Z3l2cmdmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTczNjI4NDgsImV4cCI6MjA3MjkzODg0OH0.Z-nhpNs-VxGm5UDge0cOiJNewsIvm1quZTjAixUj42I";
 const PANEL = 'panel';          // lo que va en updated_by cuando escribe el panel
-const VERSION = 'v01';
+const VERSION = 'v02';
 
 let sb = null, SESION = null, IG_SESION = null;
 /* La caché local. Cada vista se pinta desde acá; Supabase se lee al entrar,
@@ -1742,17 +1769,55 @@ async function guardarAlerta(ev) {
 }
 
 /* ───────────────────────────── dictado ─────────────────────────────────── */
-function dictar() {
+function dictar(idBoton, idInput, alTerminar) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) { aviso('Este navegador no dicta. Escribilo nomás.', true); return; }
-  const btn = $('btn-dictar');
+  const btn = $(idBoton || 'btn-dictar'), inp = $(idInput || 'captura-texto');
   if (dictar.rec) { try { dictar.rec.stop(); } catch (e) { } return; }
   const rec = new SR(); rec.lang = 'es-AR'; rec.interimResults = true; rec.maxAlternatives = 1;
-  const inp = $('captura-texto'); const base = inp.value ? inp.value + ' ' : '';
+  const base = inp.value ? inp.value + ' ' : '';
   rec.onresult = e => { let s = ''; for (const r of e.results) s += r[0].transcript; inp.value = base + s; };
-  rec.onend = () => { dictar.rec = null; btn.classList.remove('grabando'); agregarCaptura.voz = true; inp.focus(); };
+  rec.onend = () => { dictar.rec = null; btn.classList.remove('grabando'); if (alTerminar) alTerminar(); else { agregarCaptura.voz = true; inp.focus(); } };
   rec.onerror = e => { aviso('No se pudo dictar: ' + e.error, true); };
   dictar.rec = rec; btn.classList.add('grabando'); rec.start();
+}
+
+/* ───────────────────────────── el botón de IA ──────────────────────────────
+   La charla va a la función asesor-ia (supabase/functions/asesor-ia), que
+   verifica la sesión y le da a Claude herramientas sobre la agenda. Acá se
+   guardan solo las últimas vueltas, en memoria: la agenda es lo que persiste. */
+const IA = { vueltas: [], ocupado: false, url: SB_URL + '/functions/v1/asesor-ia' };
+function pintarCharla() {
+  const c = $('ia-charla');
+  if (!IA.vueltas.length) { c.innerHTML = '<div class="charla-vacia"><b>¿Qué hacemos?</b>Probá: <code>mañana llamar a Fede</code> <code>qué tengo hoy</code> <code>listo lo del zip</code> <code>pasá lo de Matías al viernes</code></div>'; return; }
+  c.innerHTML = IA.vueltas.map(v => '<div class="burbuja ' + (v.rol === 'usuario' ? 'yo' : 'ia' + (v.error ? ' error' : '') + (v.pensando ? ' pensando' : '')) + '">' + esc(v.texto) + '</div>').join('');
+  c.scrollTop = c.scrollHeight;
+}
+function abrirIA() { pintarCharla(); abrirModal('m-ia'); setTimeout(() => $('ia-texto').focus(), 60); }
+async function hablarIA(texto) {
+  texto = String(texto || '').trim();
+  if (!texto || IA.ocupado) return;
+  IA.vueltas.push({ rol: 'usuario', texto });
+  IA.vueltas.push({ rol: 'asistente', texto: 'Pensando…', pensando: true });
+  IA.ocupado = true; $('ia-enviar').disabled = true; pintarCharla();
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) throw new Error('Tu sesión venció. Volvé a entrar.');
+    const r = await fetch(IA.url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + session.access_token },
+      body: JSON.stringify({ mensajes: IA.vueltas.filter(v => !v.pensando && !v.error).slice(-12).map(v => ({ rol: v.rol, texto: v.texto })) }),
+    });
+    const cuerpo = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(cuerpo.error || ('Error ' + r.status));
+    IA.vueltas.pop();
+    IA.vueltas.push({ rol: 'asistente', texto: cuerpo.texto || 'Listo.' });
+    if (cuerpo.cambios) { try { await cargarTodo(); repintar(); } catch (e) { } }
+  } catch (e) {
+    IA.vueltas.pop();
+    IA.vueltas.push({ rol: 'asistente', texto: (e && e.message) || String(e), error: true });
+  }
+  IA.ocupado = false; $('ia-enviar').disabled = false; pintarCharla();
 }
 
 /* ───────────────────────────── íconos fijos y eventos ──────────────────── */
@@ -1764,7 +1829,8 @@ function pintarIconosFijos() {
   document.querySelectorAll('.app .ico-mas').forEach(e => e.innerHTML = ico('mas'));
   const tabIcos = { hoy: 'calendario', bandeja: 'importar', tareas: 'lista', proyectos: 'gantt', meta: 'megafono', notas: 'libro' };
   document.querySelectorAll('#tabs button').forEach(b => b.querySelector('.ico-tab').innerHTML = ico(tabIcos[b.dataset.v]));
-  ['t-cerrar', 'p-cerrar', 'n-cerrar', 'a-cerrar'].forEach(id => $(id).innerHTML = ico('cruz'));
+  ['t-cerrar', 'p-cerrar', 'n-cerrar', 'a-cerrar', 'ia-cerrar'].forEach(id => $(id).innerHTML = ico('cruz'));
+  $('btn-ia').innerHTML = ico('agente'); $('ia-dictar').innerHTML = ico('microfono'); $('ia-enviar').innerHTML = ico('enviar'); $('ia-limpiar').innerHTML = ico('refrescar');
 }
 function cambiarTema() {
   const t = document.documentElement.getAttribute('data-tema') === 'oscuro' ? 'claro' : 'oscuro';
@@ -1779,7 +1845,13 @@ function eventos() {
   $('btn-salir').addEventListener('click', salir);
   $('tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) ir(b.dataset.v); });
   $('f-captura').addEventListener('submit', async e => { e.preventDefault(); const inp = $('captura-texto'); const t = await agregarCaptura(inp.value); if (t) inp.value = ''; });
-  $('btn-dictar').addEventListener('click', dictar);
+  $('btn-dictar').addEventListener('click', () => dictar('btn-dictar', 'captura-texto'));
+  $('btn-ia').addEventListener('click', abrirIA);
+  $('ia-cerrar').addEventListener('click', cerrarModales);
+  $('ia-limpiar').addEventListener('click', () => { IA.vueltas = []; pintarCharla(); });
+  $('f-ia').addEventListener('submit', e => { e.preventDefault(); const t = $('ia-texto').value; $('ia-texto').value = ''; hablarIA(t); });
+  /* Dictado en la charla: al soltar, se manda solo. Es el camino "aprieto y hablo". */
+  $('ia-dictar').addEventListener('click', () => dictar('ia-dictar', 'ia-texto', () => { const t = $('ia-texto').value; if (t.trim()) { $('ia-texto').value = ''; hablarIA(t); } }));
   $('tareas-buscar').addEventListener('input', e => { UI.buscar = e.target.value; renderTareas(); });
   $('tareas-filtros').addEventListener('click', e => { const b = e.target.closest('.filtro'); if (b) { UI.filtroTareas = b.dataset.f; renderTareas(); } });
   $('meta-filtros').addEventListener('click', e => { const b = e.target.closest('.filtro'); if (b) { UI.filtroMeta = b.dataset.f; renderMeta(); } });
@@ -1839,7 +1911,7 @@ function eventos() {
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => { }); });
 }
-window.ASESOR = { parsearCaptura, bloqueActual, ventanaGantt, posicionGantt, hoyISO, sumarDias, fmtRelativa, guardar, crear, D, UI, ir, renderHoy, renderBandeja, renderTareas, renderProyectos, renderMeta, renderNotas, cargarTodo, enterApp, agregarCaptura, tildar };
+window.ASESOR = { parsearCaptura, bloqueActual, ventanaGantt, posicionGantt, hoyISO, sumarDias, fmtRelativa, guardar, crear, D, UI, ir, renderHoy, renderBandeja, renderTareas, renderProyectos, renderMeta, renderNotas, cargarTodo, enterApp, agregarCaptura, tildar, IA, hablarIA, abrirIA };
 document.addEventListener('DOMContentLoaded', () => { eventos(); boot(); });
 </script>
 <script>
