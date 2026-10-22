@@ -1,0 +1,16 @@
+{
+  "name": "Asesor · Integraltek",
+  "short_name": "Asesor",
+  "description": "Agenda personal: tareas, proyectos, Gantt y alertas de Meta.",
+  "start_url": "./#hoy",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A1020",
+  "theme_color": "#0A1020",
+  "lang": "es-AR",
+  "icons": [
+    { "src": "icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
