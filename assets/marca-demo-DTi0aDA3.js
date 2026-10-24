@@ -1,0 +1,1 @@
+import{rn as e}from"./estructura-panel-CsGz5iCw.js";var t=e();function n({origen:e=`demo`}){return e===`demo`?(0,t.jsx)(`span`,{className:`marca-demo`,children:`demo`}):null}export{n as t};

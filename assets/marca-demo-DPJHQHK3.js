@@ -1,1 +1,0 @@
-import{Xt as e}from"./estructura-panel-e_Phth3M.js";var t=e();function n({origen:e=`demo`}){return e===`demo`?(0,t.jsx)(`span`,{className:`marca-demo`,children:`demo`}):null}export{n as t};
